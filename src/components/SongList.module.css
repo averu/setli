@@ -1,0 +1,52 @@
+.songList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.songList ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.songList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  padding: 0.5rem 1rem;
+  background-color: #f3f3f3;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.songList li button {
+  background-color: #ff4b5c;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.songList form {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.songList input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  border: 1px solid #ccc;
+}
+
+.songList button[type="submit"] {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 0.5rem;
+  color: #fff;
+  cursor: pointer;
+}
