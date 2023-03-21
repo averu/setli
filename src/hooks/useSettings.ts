@@ -1,30 +1,18 @@
 import { useCallback } from "react";
 import { invoke } from "@tauri-apps/api";
 import { Settings } from "../types";
-import { hasUncaughtExceptionCaptureCallback } from "process";
-
-interface UpdateSettingsArgs {
-  sceneName: string;
-  textName: string;
-  fontFamily: string;
-  fontColor: string;
-  outline: boolean;
-  outlineWidth: number;
-}
 
 export function useSettings() {
   const convertHexToDecimal = (hex: string) => {
-    console.log(hex);
     const convertedHex = hex.slice(1);
     const obsBlue = convertedHex.substring(0, 2);
     const obsGreen = convertedHex.substring(2, 4);
     const obsRed = convertedHex.substring(4, 6);
     const obsColor = `${obsRed}${obsGreen}${obsBlue}`;
-    console.log(parseInt(obsColor, 16));
     return parseInt(obsColor, 16);
   };
 
-  const updateSettings = useCallback(async (settings: UpdateSettingsArgs) => {
+  const updateSettings = useCallback(async (settings: Settings) => {
     try {
       await invoke("update_settings_to_obs", {
         settings: {
@@ -34,6 +22,7 @@ export function useSettings() {
           font_color: convertHexToDecimal(settings.fontColor),
           outline: settings.outline,
           outline_width: settings.outlineWidth,
+          outline_color: convertHexToDecimal(settings.outlineColor),
         },
       });
       localStorage.setItem("settings", JSON.stringify(settings));
@@ -60,5 +49,15 @@ export function useSettings() {
     }
   }, []);
 
-  return { updateSettings, getSettings };
+  const getFonts = async (): Promise<string[]> => {
+    try {
+      const fonts: string[] = await invoke("get_fonts");
+      return fonts;
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  };
+
+  return { updateSettings, getSettings, getFonts };
 }

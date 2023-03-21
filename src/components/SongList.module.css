@@ -9,13 +9,14 @@
 
 .songList ul {
   list-style-type: none;
-  padding: 0;
+  padding: 0px 5px 0px 5px;
   width: 100%;
   max-height: 100%; /* 最大の高さを設定 */
   overflow-y: auto; /* 縦方向にスクロール可能にする */
 }
 
 .songList li {
+  color: #333;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,6 +49,8 @@
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
+  background-color: #f3f3f3;
+  color: #333;
 }
 
 .songList button {

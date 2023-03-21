@@ -42,9 +42,9 @@
     "windows": [
       {
         "fullscreen": false,
-        "resizable": false,
+        "resizable": true,
         "title": "setli",
-        "width": 800,
+        "width": 900,
         "height": 600
       }
     ]

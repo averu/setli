@@ -3,6 +3,7 @@ import Toggle from "react-toggle";
 import "react-toggle/style.css";
 import styles from "./SettingsPanel.module.css";
 import { useSettings } from "../hooks/useSettings";
+import { Settings } from "../types";
 
 function SettingsPanel() {
   const [sceneName, setSceneName] = useState<string>("シーン");
@@ -11,12 +12,30 @@ function SettingsPanel() {
   const [fontFamily, setFontFamily] = useState<string>("Arial");
   const [outline, setOutline] = useState<boolean>(false);
   const [outlineWidth, setOutlineWidth] = useState<number>(1);
+  const [outlineColor, setOutlineColor] = useState<string>("#ffffff");
+  const [fontList, setFontList] = useState<string[]>([]);
 
-  const { updateSettings } = useSettings();
+  const { updateSettings, getSettings, getFonts } = useSettings();
 
-  function handleSceneNameChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setSceneName(e.target.value);
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const fonts: string[] = await getFonts();
+      setFontList(fonts);
+      const settings: Settings = await getSettings();
+      setSceneName(settings.sceneName);
+      setTextName(settings.textName);
+      setFontColor(settings.fontColor);
+      setFontFamily(settings.fontFamily);
+      setOutline(settings.outline);
+      setOutlineWidth(settings.outlineWidth);
+      setOutlineColor(settings.outlineColor);
+    };
+    fetchData();
+  }, []);
+
+  // function handleSceneNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+  //   setSceneName(e.target.value);
+  // }
 
   function handleTextNameChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTextName(e.target.value);
@@ -40,10 +59,16 @@ function SettingsPanel() {
     setOutlineWidth(Number(e.target.value));
   }
 
+  function handleOutlineColorChange(e: {
+    target: { value: React.SetStateAction<string> };
+  }) {
+    setOutlineColor(e.target.value);
+  }
+
   return (
     <div className={styles.settingsPanel}>
-      <div className={styles.settingsGroup}>
-        <label className={styles.settingsLabel}>Scene</label>
+      {/* <div className={styles.settingsGroup}>
+        <label className={styles.settingsLabel}>Scene Name</label>
         <div className={styles.settingsInput}>
           <input
             type="text"
@@ -51,9 +76,9 @@ function SettingsPanel() {
             onChange={handleSceneNameChange}
           />
         </div>
-      </div>
+      </div> */}
       <div className={styles.settingsGroup}>
-        <label className={styles.settingsLabel}>Name</label>
+        <label className={styles.settingsLabel}>Text Source</label>
         <div className={styles.settingsInput}>
           <input type="text" value={textName} onChange={handleTextNameChange} />
         </div>
@@ -72,10 +97,12 @@ function SettingsPanel() {
       <div className={styles.settingsGroup}>
         <label className={styles.settingsLabel}>Font Familiy</label>
         <div className={styles.settingsInput}>
-          <select value={fontFamily} onChange={handleFontFamilyChange}>
-            <option>Meiryo</option>
-            <option>Helvetica</option>
-            <option>Arial</option>
+          <select onChange={handleFontFamilyChange}>
+            {fontList.map((font, index) => (
+              <option key={index} value={font}>
+                {font}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -99,6 +126,17 @@ function SettingsPanel() {
           />
         </div>
       </div>
+      <div className={styles.settingsGroup}>
+        <label className={styles.settingsLabel}>Outline Color</label>
+        <div className={styles.settingsInput}>
+          <span>{outlineColor}</span>
+          <input
+            type="color"
+            value={outlineColor}
+            onChange={handleOutlineColorChange}
+          />
+        </div>
+      </div>
       <div className={styles.settingsButton}>
         <button
           onClick={() =>
@@ -109,6 +147,7 @@ function SettingsPanel() {
               fontColor: fontColor,
               outline: outline,
               outlineWidth: outlineWidth,
+              outlineColor: outlineColor,
             })
           }
         >

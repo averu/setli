@@ -5,9 +5,11 @@ export interface Song {
 }
 
 export type Settings = {
-  color: string;
+  sceneName: string;
+  textName: string;
+  fontFamily: string;
+  fontColor: string;
   outline: boolean;
-  outline_width: number;
-  scene: string;
-  name: string;
+  outlineWidth: number;
+  outlineColor: string;
 };
