@@ -6,9 +6,9 @@ interface Props {
 }
 
 const OBSConnection: React.FC<Props> = ({ onConnect }) => {
-  const [host, setHost] = useState("192.168.1.7");
+  const [host, setHost] = useState("");
   const [port, setPort] = useState(4455);
-  const [password, setPassword] = useState("l4VMzOcxjC3ymxtN");
+  const [password, setPassword] = useState("");
 
   const handleConnect = () => {
     onConnect(host, port, password);
