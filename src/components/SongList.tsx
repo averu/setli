@@ -17,6 +17,15 @@ function SongList() {
 
   return (
     <div className={styles.songList}>
+      <form onSubmit={handleAddSong}>
+        <input
+          type="text"
+          name="song"
+          value={newSong}
+          onChange={(e) => setNewSong(e.target.value)}
+        />
+        <button type="submit">+</button>
+      </form>
       <ul>
         {songs.map((song: Song, index: number) => (
           <li key={index}>
@@ -25,15 +34,6 @@ function SongList() {
           </li>
         ))}
       </ul>
-      <form onSubmit={handleAddSong}>
-        <input
-          type="text"
-          name="song"
-          value={newSong}
-          onChange={(e) => setNewSong(e.target.value)}
-        />
-        <button type="submit">Add Song</button>
-      </form>
     </div>
   );
 }

@@ -1,0 +1,52 @@
+.obsConnection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputGroup {
+  display: flex;
+  margin: 8px;
+  align-items: center;
+}
+
+.label {
+  width: 100px;
+  text-align: left;
+  margin-right: 8px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 200px;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid gray;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.connectButton {
+  width: 120px;
+  padding: 4px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.connectButton:hover {
+  background-color: #3e8e41;
+}

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import OBSConnection from "./components/OBSConnection";
 import SongList from "./components/SongList";
+import SettingsPanel from "./components/SettingsPanel";
+import "./App.css";
 
 function App() {
   const [connected, setConnected] = useState(false);
@@ -24,8 +26,16 @@ function App() {
 
   return (
     <div className="App">
-      <OBSConnection onConnect={handleConnect} />
-      {connected && <SongList />}
+      <div className="Container">
+        {!connected ? (
+          <OBSConnection onConnect={handleConnect} />
+        ) : (
+          <>
+            <SongList />
+            <SettingsPanel />
+          </>
+        )}
+      </div>
     </div>
   );
 }

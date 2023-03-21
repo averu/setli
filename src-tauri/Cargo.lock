@@ -2646,6 +2646,7 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "serde_with 2.3.1",
  "tauri",
  "tauri-build",
 ]
