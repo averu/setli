@@ -17,11 +17,12 @@ function App() {
       const result: boolean = await invoke("connect_to_obs", {
         config: { host, port, password },
       });
-      // 接続が成功したら、曲のリストを取得して表示する処理を追加
-      setConnected(result);
       if (!result) {
         alert(`The field you want to enter is incorrect.`);
+        return;
       }
+      // 接続が成功したら、曲のリストを取得して表示する処理を追加
+      setConnected(result);
     } catch (error) {
       alert(`Failed to connect: ${error}`);
     }

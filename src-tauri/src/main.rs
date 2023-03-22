@@ -25,6 +25,7 @@ struct Settings {
   outline: bool,
   outline_width: usize,
   outline_color: usize,
+  line_breaks: usize,
 }
 
 #[derive(Debug, Deserialize)]
@@ -51,6 +52,7 @@ impl AppState {
       outline: true,
       outline_width: 1,
       outline_color: 0,
+      line_breaks: 1,
     });
     Self {
       client: Arc::new(Mutex::new(None)),
@@ -103,6 +105,7 @@ fn connect_to_obs(config: ConnectionInfo, app_state: tauri::State<AppState>) -> 
 #[tauri::command]
 fn update_settings_to_obs(settings: Settings, app_state: tauri::State<AppState>) -> (){
   tauri::async_runtime::block_on(update_settings(settings, app_state.clone()));
+  tauri::async_runtime::block_on(sync_to_obs(app_state.clone()));
 }
 
 #[tauri::command]
@@ -116,11 +119,12 @@ async fn sync_to_obs(app_state: tauri::State<'_, AppState>) -> () {
   let client = app_state.client.lock().unwrap();
   let songs_guard = app_state.songs.lock().unwrap();
   let songs = &*songs_guard;
-  let song_titles = songs.iter().map(|song| song.title.clone()).collect::<Vec<String>>().join("\n");
-  drop(songs_guard);
   let state_settings_guard = app_state.settings.lock().unwrap();
   let state_settings = &*state_settings_guard.as_ref().unwrap();
   let text_name = &state_settings.text_name;
+  let line_breaks = &state_settings.line_breaks;
+  let song_titles = songs.iter().map(|song| song.title.clone()).collect::<Vec<String>>().join("\n".repeat(*line_breaks).as_str());
+  drop(songs_guard);
   let settings = client.as_ref().unwrap().inputs().settings::<serde_json::Value>(text_name).await.unwrap();
   let mut new_settings = settings.settings.clone();
   new_settings.as_object_mut().unwrap().insert("text".to_string(), serde_json::Value::String(song_titles));

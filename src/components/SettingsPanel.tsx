@@ -14,6 +14,7 @@ function SettingsPanel() {
   const [outlineWidth, setOutlineWidth] = useState<number>(1);
   const [outlineColor, setOutlineColor] = useState<string>("#ffffff");
   const [fontList, setFontList] = useState<string[]>([]);
+  const [lineBreaks, setLineBreaks] = useState<number>(1);
 
   const { updateSettings, getSettings, getFonts } = useSettings();
 
@@ -21,14 +22,17 @@ function SettingsPanel() {
     const fetchData = async () => {
       const fonts: string[] = await getFonts();
       setFontList(fonts);
-      const settings: Settings = await getSettings();
-      setSceneName(settings.sceneName);
-      setTextName(settings.textName);
-      setFontColor(settings.fontColor);
-      setFontFamily(settings.fontFamily);
-      setOutline(settings.outline);
-      setOutlineWidth(settings.outlineWidth);
-      setOutlineColor(settings.outlineColor);
+      const settings: Settings | undefined = await getSettings();
+      if (settings) {
+        setSceneName(settings.sceneName);
+        setTextName(settings.textName);
+        setFontColor(settings.fontColor);
+        setFontFamily(settings.fontFamily);
+        setOutline(settings.outline);
+        setOutlineWidth(settings.outlineWidth);
+        setOutlineColor(settings.outlineColor);
+        setLineBreaks(settings.lineBreaks);
+      }
     };
     fetchData();
   }, []);
@@ -65,6 +69,10 @@ function SettingsPanel() {
     setOutlineColor(e.target.value);
   }
 
+  function handleLineBreaksChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setLineBreaks(Number(e.target.value));
+  }
+
   return (
     <div className={styles.settingsPanel}>
       {/* <div className={styles.settingsGroup}>
@@ -86,7 +94,7 @@ function SettingsPanel() {
       <div className={styles.settingsGroup}>
         <label className={styles.settingsLabel}>Font Color</label>
         <div className={styles.settingsInput}>
-          <span>{fontColor}</span>
+          <span>{fontColor.toUpperCase()}</span>
           <input
             type="color"
             value={fontColor}
@@ -117,7 +125,7 @@ function SettingsPanel() {
         <div className={styles.settingsInput}>
           <input
             type="number"
-            min="0"
+            min="1"
             max="100"
             step="1"
             defaultValue="1"
@@ -129,11 +137,25 @@ function SettingsPanel() {
       <div className={styles.settingsGroup}>
         <label className={styles.settingsLabel}>Outline Color</label>
         <div className={styles.settingsInput}>
-          <span>{outlineColor}</span>
+          <span>{outlineColor.toUpperCase()}</span>
           <input
             type="color"
             value={outlineColor}
             onChange={handleOutlineColorChange}
+          />
+        </div>
+      </div>
+      <div className={styles.settingsGroup}>
+        <label className={styles.settingsLabel}>Line Breaks</label>
+        <div className={styles.settingsInput}>
+          <input
+            type="number"
+            min="1"
+            max="2"
+            step="1"
+            defaultValue="1"
+            value={lineBreaks}
+            onChange={handleLineBreaksChange}
           />
         </div>
       </div>
@@ -148,6 +170,7 @@ function SettingsPanel() {
               outline: outline,
               outlineWidth: outlineWidth,
               outlineColor: outlineColor,
+              lineBreaks: lineBreaks,
             })
           }
         >

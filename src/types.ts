@@ -12,4 +12,5 @@ export type Settings = {
   outline: boolean;
   outlineWidth: number;
   outlineColor: string;
+  lineBreaks: number;
 };

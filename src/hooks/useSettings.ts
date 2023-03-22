@@ -23,28 +23,24 @@ export function useSettings() {
           outline: settings.outline,
           outline_width: settings.outlineWidth,
           outline_color: convertHexToDecimal(settings.outlineColor),
+          line_breaks: settings.lineBreaks,
         },
       });
       localStorage.setItem("settings", JSON.stringify(settings));
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      alert(`Failed to update settings: ${error}`);
     }
   }, []);
 
-  const getSettings = useCallback(async (): Promise<Settings> => {
+  const getSettings = useCallback(async (): Promise<Settings | undefined> => {
     try {
-      // Check if settings exist in local storage
       const localSettings = localStorage.getItem("settings");
       if (localSettings) {
-        console.log("Using local settings");
-        return JSON.parse(localSettings);
+        const parsedSettings: Settings = JSON.parse(localSettings);
+        return parsedSettings;
       }
-      console.log("Using API settings");
-      // If not, get settings from API
-      const apiSettings = await invoke<Settings>("get_settings");
-      return apiSettings;
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      alert(`Failed to get settings: ${error}`);
       return {} as Settings;
     }
   }, []);
@@ -53,8 +49,8 @@ export function useSettings() {
     try {
       const fonts: string[] = await invoke("get_fonts");
       return fonts;
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      alert(`Failed to get fonts: ${error}`);
       return [];
     }
   };
