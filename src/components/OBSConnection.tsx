@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./OBSConnection.module.css";
 import Icon from "../assets/icon.png";
 
@@ -7,13 +7,39 @@ interface Props {
 }
 
 const OBSConnection: React.FC<Props> = ({ onConnect }) => {
-  const [host, setHost] = useState("");
-  const [port, setPort] = useState(4455);
-  const [password, setPassword] = useState("");
+  const storedHost = localStorage.getItem("host") || "";
+  const storedPort = Number(localStorage.getItem("port")) || 4455;
+  const storedPassword = localStorage.getItem("password") || "";
+
+  const [host, setHost] = useState(storedHost);
+  const [port, setPort] = useState(storedPort);
+  const [password, setPassword] = useState(storedPassword);
+
+  useEffect(() => {
+    localStorage.setItem("host", host);
+    localStorage.setItem("port", String(port));
+    localStorage.setItem("password", password);
+  }, [host, port, password]);
 
   const handleConnect = () => {
     onConnect(host, port, password);
   };
+
+  useEffect(() => {
+    const storedHost = localStorage.getItem("host");
+    const storedPort = localStorage.getItem("port");
+    const storedPassword = localStorage.getItem("password");
+
+    if (storedHost) {
+      setHost(storedHost);
+    }
+    if (storedPort) {
+      setPort(Number(storedPort));
+    }
+    if (storedPassword) {
+      setPassword(storedPassword);
+    }
+  }, []);
 
   return (
     <div className={styles.obsConnection}>

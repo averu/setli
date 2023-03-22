@@ -103,4 +103,12 @@ button {
     color: #ffffff;
     background-color: #0f0f0f98;
   }
+
+  input[type="color"]:hover {
+    background-color: #666;
+  }
+
+  input[type="color"]:active {
+    background-color: #333;
+  }
 }
