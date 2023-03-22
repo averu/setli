@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./OBSConnection.module.css";
+import Icon from "../assets/icon.png";
 
 interface Props {
   onConnect: (host: string, port: number, password: string) => void;
@@ -16,6 +17,9 @@ const OBSConnection: React.FC<Props> = ({ onConnect }) => {
 
   return (
     <div className={styles.obsConnection}>
+      <div className={styles.icon}>
+        <img src={Icon} />
+      </div>
       <div className={styles.inputGroup}>
         <label className={styles.label}>Host:</label>
         <div className={styles.inputContainer}>
@@ -47,10 +51,8 @@ const OBSConnection: React.FC<Props> = ({ onConnect }) => {
           />
         </div>
       </div>
-      <div className={styles.buttonGroup}>
-        <button onClick={handleConnect} className={styles.connectButton}>
-          Connect
-        </button>
+      <div className={styles.connectButton}>
+        <button onClick={handleConnect}>Connect</button>
       </div>
     </div>
   );

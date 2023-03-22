@@ -42,7 +42,8 @@
   margin-left: 5px;
 }
 
-.settingsInput input[type="text"] {
+.settingsInput input[type="text"],
+.settingsInput input[type="number"] {
   width: 100%;
 }
 

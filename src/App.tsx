@@ -19,6 +19,9 @@ function App() {
       });
       // 接続が成功したら、曲のリストを取得して表示する処理を追加
       setConnected(result);
+      if (!result) {
+        alert(`The field you want to enter is incorrect.`);
+      }
     } catch (error) {
       alert(`Failed to connect: ${error}`);
     }
