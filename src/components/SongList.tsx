@@ -7,10 +7,10 @@ function SongList() {
   const { songs, addSong, deleteSong } = useSongs();
   const [newSong, setNewSong] = useState("");
 
-  const handleAddSong = (e: React.FormEvent) => {
+  const handleAddSong = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newSong.trim()) {
-      addSong(newSong);
+      await addSong(newSong);
       setNewSong("");
     }
   };
