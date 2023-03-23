@@ -3,10 +3,12 @@ import { invoke } from "@tauri-apps/api/tauri";
 import OBSConnection from "./components/OBSConnection";
 import SongList from "./components/SongList";
 import SettingsPanel from "./components/SettingsPanel";
+import ErrorMessage from "./components/ErrorMessage";
 import "./App.css";
 
 function App() {
   const [connected, setConnected] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleConnect = async (
     host: string,
@@ -18,28 +20,31 @@ function App() {
         config: { host, port, password },
       });
       if (!result) {
-        alert(`The field you want to enter is incorrect.`);
+        setErrorMessage(
+          "OBSとの接続に失敗しました。入力されたフィールドが正しいか確認してください。"
+        );
         return;
       }
       // 接続が成功したら、曲のリストを取得して表示する処理を追加
       setConnected(result);
     } catch (error) {
-      alert(`Failed to connect: ${error}`);
+      setErrorMessage("OBSとの接続時にエラーが発生しました。");
     }
   };
 
   return (
     <div className="App">
-      <div className="Container">
-        {!connected ? (
+      {!connected ? (
+        <div className="connectContainer">
+          {errorMessage && <ErrorMessage message={errorMessage} />}
           <OBSConnection onConnect={handleConnect} />
-        ) : (
-          <>
-            <SongList />
-            <SettingsPanel />
-          </>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="settingsContainer">
+          <SongList />
+          <SettingsPanel />
+        </div>
+      )}
     </div>
   );
 }
