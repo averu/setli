@@ -6,7 +6,10 @@ export function useSongs() {
   const [songs, setSongs] = useState<Song[]>([]);
 
   useEffect(() => {
-    getSongs();
+    async function fetchData() {
+      await getSongs();
+    }
+    fetchData();
   }, []);
 
   async function getSongs() {
@@ -21,7 +24,7 @@ export function useSongs() {
   async function addSong(song: string) {
     try {
       await invoke("add_song", { song });
-      getSongs();
+      await getSongs();
     } catch (error) {
       console.error("Error adding song:", error);
     }
@@ -30,7 +33,7 @@ export function useSongs() {
   async function deleteSong(index: number) {
     try {
       await invoke("delete_song", { index });
-      getSongs();
+      await getSongs();
     } catch (error) {
       console.error("Error deleting song:", error);
     }

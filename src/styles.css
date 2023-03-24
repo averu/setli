@@ -73,10 +73,6 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  border-color: #396cd8;
-}
-
 input,
 select,
 button {

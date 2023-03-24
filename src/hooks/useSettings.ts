@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { invoke } from "@tauri-apps/api";
 import { Settings } from "../types";
 
@@ -12,7 +11,7 @@ export function useSettings() {
     return parseInt(obsColor, 16);
   };
 
-  const updateSettings = useCallback(async (settings: Settings) => {
+  async function updateSettings(settings: Settings) {
     try {
       await invoke("update_settings_to_obs", {
         settings: {
@@ -30,9 +29,9 @@ export function useSettings() {
     } catch (error) {
       alert(`Failed to update settings: ${error}`);
     }
-  }, []);
+  }
 
-  const getSettings = useCallback(async (): Promise<Settings | undefined> => {
+  async function getSettings(): Promise<Settings | undefined> {
     try {
       const localSettings = localStorage.getItem("settings");
       if (localSettings) {
@@ -43,9 +42,9 @@ export function useSettings() {
       alert(`Failed to get settings: ${error}`);
       return {} as Settings;
     }
-  }, []);
+  }
 
-  const getFonts = async (): Promise<string[]> => {
+  async function getFonts(): Promise<string[]> {
     try {
       const fonts: string[] = await invoke("get_fonts");
       return fonts;
@@ -53,7 +52,7 @@ export function useSettings() {
       alert(`Failed to get fonts: ${error}`);
       return [];
     }
-  };
+  }
 
   return { updateSettings, getSettings, getFonts };
 }

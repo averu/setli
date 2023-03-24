@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./OBSConnection.module.css";
 import Icon from "../assets/icon.png";
 
@@ -24,22 +24,6 @@ const OBSConnection: React.FC<Props> = ({ onConnect }) => {
   const handleConnect = () => {
     onConnect(host, port, password);
   };
-
-  useEffect(() => {
-    const storedHost = localStorage.getItem("host");
-    const storedPort = localStorage.getItem("port");
-    const storedPassword = localStorage.getItem("password");
-
-    if (storedHost) {
-      setHost(storedHost);
-    }
-    if (storedPort) {
-      setPort(Number(storedPort));
-    }
-    if (storedPassword) {
-      setPassword(storedPassword);
-    }
-  }, []);
 
   return (
     <div className={styles.obsConnection}>
