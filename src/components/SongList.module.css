@@ -24,16 +24,31 @@
   background-color: #f3f3f3;
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+.songList li span {
+  display: flex;
+  justify-content: center;
 }
 
 .songList li button {
+  width: 28px;
+  height: 28px;
   background-color: #ff4b5c;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.25rem 0.5rem;
+  border-radius: 30px;
   color: #fff;
-  cursor: pointer;
-  font-size: 0.9rem;
+  padding: 5px;
+  transition: 0.3s;
+}
+
+.songList li button:hover {
+  width: 28px;
+  height: 28px;
+  background-color: #ff7c89;
+  border-radius: 30px;
+  color: #fff;
+  padding: 5px;
 }
 
 .songList form {
@@ -53,16 +68,17 @@
   color: #333;
 }
 
-.songList button {
+.songList form button {
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #588edf;
   border: none;
   border-radius: 0 0.5rem 0.5rem 0;
-  padding: 0.6em 1.2em;
+  padding: 0.6em;
   color: #fff;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-.songList button:active {
-  background-color: #e8e8e8;
+.songList form button:hover {
+  background: #75a8f5;
 }

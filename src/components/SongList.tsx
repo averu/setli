@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSongs } from "../hooks/useSongs";
 import styles from "./SongList.module.css";
 import type { Song } from "../types";
+import Delete from "../assets/x-mark.svg";
+import Plus from "../assets/plus.svg";
 
 function SongList() {
   const { songs, addSong, deleteSong } = useSongs();
@@ -24,13 +26,17 @@ function SongList() {
           value={newSong}
           onChange={(e) => setNewSong(e.target.value)}
         />
-        <button type="submit">+</button>
+        <button type="submit">
+          <img src={Plus} />
+        </button>
       </form>
       <ul>
         {songs.map((song: Song, index: number) => (
           <li key={index}>
-            {song.title}
-            <button onClick={() => deleteSong(index)}>Delete</button>
+            <span>{song.title}</span>
+            <button onClick={() => deleteSong(index)}>
+              <img src={Delete} />
+            </button>
           </li>
         ))}
       </ul>
